@@ -1,0 +1,15 @@
+transformers
+PyAudio
+SpeechRecognition
+plyer
+requests
+plotly
+scikit-learn
+matplotlib
+joblib
+seaborn
+imblearn
+gtts
+pydub
+accelerate
+torch
