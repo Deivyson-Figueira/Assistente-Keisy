@@ -13,3 +13,6 @@ gtts
 pydub
 accelerate
 torch
+numpy 
+scipy
+pandas
