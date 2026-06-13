@@ -308,7 +308,7 @@ class KeisyApp:
             return
 
         try:
-            self.llm = Llama(model_path=self.model_path, n_ctx=self.n_ctx, n_threads=self.n_threads, n_batch=512, verbose=False)
+            self.llm = Llama(model_path=self.model_path, n_ctx=self.n_ctx, n_threads=self.n_threads, n_batch=512)
             saudacao = "Sistemas integrados. Interface de comunicação ativa. Olá, em que posso ajudar hoje?"
             self.append_message("Keisy", saudacao, "Keisy")
             self.atualizar_status("🟢 Keisy está Pronta")
@@ -356,7 +356,7 @@ class KeisyApp:
 
     def verificar_atualizacao(self):
         import urllib.request
-        url_versao_remota = "https://raw.githubusercontent.com/seu-usuario/seu-repositorio/main/versao.txt"
+        url_versao_remota = "https://raw.githubusercontent.com/Deivyson-Figueira/Assistente-Keisy/main/versao.txt"
         try:
             req = urllib.request.Request(url_versao_remota, headers={'User-Agent': 'Mozilla/5.0'})
             with urllib.request.urlopen(req, timeout=3) as response:
@@ -436,7 +436,7 @@ class KeisyApp:
         )
 
         try:
-            output = self.llm(prompt, max_tokens=128, temperature=0.5, stop=["<|eot_id|>", "\n\n"], verbose=False)
+            output = self.llm(prompt, max_tokens=128, temperature=0.5, stop=["<|eot_id|>", "\n\n"])
             resposta = output['choices'][0]['text'].strip() or "*reflete em silêncio*"
             self.exibir_e_falar_resposta(resposta)
         except Exception as e:
