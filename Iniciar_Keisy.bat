@@ -30,8 +30,6 @@ if not exist "%PYTHON_EXE%" (
 
 echo ⚙️ Instalando Python silenciosamente... Por favor, aguarde.
 :: Executa o instalador de forma oculta.
-:: PrependPath=1 adiciona o Python ao PATH global automaticamente
-:: Include_pip=1 garante que o gerenciador de pacotes pip seja instalado
 start /wait "" "%PYTHON_EXE%" /quiet InstallAllUsers=0 PrependPath=1 Include_pip=1 Include_test=0 Shortcuts=0
 
 :: Remove o arquivo instalador do pen drive para não acumular lixo
@@ -54,22 +52,17 @@ echo ✅ Python instalado e configurado com sucesso!
 echo.
 echo 2. CONFIGURANDO AMBIENTE PORTATIL DA KEISY...
 
-:: Verifica se o ambiente virtual existe no pen drive
-if not exist ".Keisy_IA\Scripts\activate.bat" (
-    echo 📦 Criando ambiente isolado (.Keisy_IA) no Ventoy...
-    python -m venv .Keisy_IA
+:: Verifica se o ambiente virtual existe no pen drive (Corrigido para .Keisy)
+if not exist ".Keisy\Scripts\activate.bat" (
+    echo 📦 Criando ambiente isolado (.Keisy) no seu pen drive...
+    python -m venv .Keisy
 )
 
-:: Ativa o ambiente virtual do pen drive
+:: Ativa o ambiente virtual do pen drive (Corrigido para .Keisy)
 echo 🛠️ Ativando ambiente virtual...
-call .Keisy_IA\Scripts\activate.bat
+call .Keisy\Scripts\activate.bat
 
-:: Instala ou valida as dependências necessárias
-echo 🐍 Verificando dependencias de IA e Audio...
-python -m pip install --upgrade pip
-python -m pip install llama-cpp-python psutil yt-dlp gTTS pygame
-
-:: Executa a Keisy
+:: Executa a Keisy diretamente (a verificação de dependências é feita pelo script Python de forma assíncrona)
 echo 🧠 Carregando matriz cerebral...
 python Keisy_IA.py
 
