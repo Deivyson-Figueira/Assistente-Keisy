@@ -19,7 +19,6 @@ set "PYTHON_EXE=python_installer.exe"
 set "PYTHON_URL=https://www.python.org/ftp/python/3.12.3/python-3.12.3-amd64.exe"
 
 echo 📥 Baixando instalador oficial do Python...
-:: Usa o PowerShell embutido no Windows para baixar o instalador para o pen drive
 powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object System.Net.WebClient).DownloadFile('%PYTHON_URL%', '%PYTHON_EXE%')"
 
 if not exist "%PYTHON_EXE%" (
@@ -28,20 +27,17 @@ if not exist "%PYTHON_EXE%" (
     exit /b
 )
 
-echo ⚙️ Instalando Python silenciosamente... Por favor, aguarde.
-:: Executa o instalador de forma oculta.
+echo ⚙️ Instalando Python... Por favor, aguarde...
 start /wait "" "%PYTHON_EXE%" /quiet InstallAllUsers=0 PrependPath=1 Include_pip=1 Include_test=0 Shortcuts=0
 
 :: Remove o arquivo instalador do pen drive para não acumular lixo
 del "%PYTHON_EXE%"
 
-:: Atualiza as variáveis de ambiente locais do terminal atual para reconhecer o recém-instalado Python
 set "PATH=%USERPROFILE%\AppData\Local\Programs\Python\Python312\;%USERPROFILE%\AppData\Local\Programs\Python\Python312\Scripts\;%PATH%"
 
-:: Nova checagem de validação
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo ❌ Falha crítica: O Python foi instalado, mas o terminal nao conseguiu mapear o executavel.
+    echo ❌ Falha crítica: O Python foi instalado, mas o terminal não conseguiu mapear o executavel.
     echo 💡 Dica: Tente fechar esta janela e abrir o 'Iniciar_Keisy.bat' novamente.
     pause
     exit /b
@@ -52,18 +48,18 @@ echo ✅ Python instalado e configurado com sucesso!
 echo.
 echo 2. CONFIGURANDO AMBIENTE PORTATIL DA KEISY...
 
-:: Verifica se o ambiente virtual existe no pen drive (Corrigido para .Keisy)
+:: Verifica se o ambiente virtual existe no pen drive
 if not exist ".Keisy\Scripts\activate.bat" (
     echo 📦 Criando ambiente isolado (.Keisy) no seu pen drive...
     python -m venv .Keisy
 )
 
-:: Ativa o ambiente virtual do pen drive (Corrigido para .Keisy)
+:: Ativa o ambiente virtual do pen drive
 echo 🛠️ Ativando ambiente virtual...
 call .Keisy\Scripts\activate.bat
 
-:: Executa a Keisy diretamente (a verificação de dependências é feita pelo script Python de forma assíncrona)
-echo 🧠 Carregando matriz cerebral...
+:: Executa a Keisy diretamente
+echo 🧠 Carregando a Keisy...
 python Keisy_IA.py
 
 :: Desativa o ambiente ao fechar a interface gráfica
